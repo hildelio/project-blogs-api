@@ -6,14 +6,14 @@ const registerUser = async ({ displayName, email, password, image }) => {
     if (user !== null) {
       return { type: 409, message: 'User already registered' }; // 409: Conflict
     }
-    await User.create({
+    const { id } = await User.create({
       displayName,
       email,
       password,
       image,
     });
     
-    const token = tokenGenerator(user.dataValues);
+    const token = tokenGenerator(id);
 
     return { type: 201, token }; // 201: Created
 };
@@ -23,7 +23,16 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  if (!user) {
+    return { type: 404, message: 'User does not exist' };
+  }
+  return { type: 200, user };
+};
+
 module.exports = {
   registerUser,
   getAllUsers,
+  getById,
 };
