@@ -14,4 +14,9 @@ const userSchema = Joi.object({
   password: Joi.string().min(6).required(),    
 });
 
-module.exports = { loginSchema, userSchema };
+const tokenSchema = Joi.string().required().messages({
+  'string.empty': 'Token not found',
+  'any.required': 'Token not found', 
+});
+
+module.exports = { loginSchema, userSchema, tokenSchema };

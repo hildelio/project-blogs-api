@@ -8,6 +8,11 @@ const registerUser = async (req, res) => {
   return res.status(type).json({ token });  
 };
 
+const getAllUsers = async (__req, res) => {
+  const users = await userService.getAllUsers();
+  return res.status(200).json(users);
+};
 module.exports = {
   registerUser,
+  getAllUsers,
 };

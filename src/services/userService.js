@@ -1,9 +1,8 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+const { tokenGenerator } = require('../utils/tokenJWT');
 
 const registerUser = async ({ displayName, email, password, image }) => {
     const user = await User.findOne({ where: { email } });
-    console.log(user);
     if (user !== null) {
       return { type: 409, message: 'User already registered' }; // 409: Conflict
     }
@@ -13,13 +12,18 @@ const registerUser = async ({ displayName, email, password, image }) => {
       password,
       image,
     });
-    const secret = process.env.JWT_SECRET;
     
-    const token = jwt.sign(password, secret);
+    const token = tokenGenerator(user.dataValues);
 
     return { type: 201, token }; // 201: Created
 };
 
+const getAllUsers = async () => {
+  const users = await User.findAll({ attributes: { exclude: 'password' } });
+  return users;
+};
+
 module.exports = {
   registerUser,
+  getAllUsers,
 };
