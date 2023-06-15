@@ -13,7 +13,7 @@ const registerUser = async ({ displayName, email, password, image }) => {
       image,
     });
     
-    const token = tokenGenerator(id);
+    const token = tokenGenerator({ id });
 
     return { type: 201, token }; // 201: Created
 };
@@ -24,11 +24,12 @@ const getAllUsers = async () => {
 };
 
 const getById = async (id) => {
-  const user = await User.findOne({ where: { id } });
+  const user = await User.findOne({ where: { id }, attributes: { exclude: 'password' } });
+  console.log(user);
   if (!user) {
     return { type: 404, message: 'User does not exist' };
   }
-  return { type: 200, user };
+  return { type: 200, message: user };
 };
 
 module.exports = {

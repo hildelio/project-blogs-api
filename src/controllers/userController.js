@@ -20,7 +20,7 @@ const getById = async (req, res) => {
   if (type > 300) {
     return res.status(type).json({ message });
   }
-  return res.status(type).json(user);
+  return res.status(type).json(message);
 };
 
 module.exports = {

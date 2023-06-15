@@ -8,7 +8,7 @@ const loginAuth = async ({ email, password }) => {
         return { type: 400, message: 'Invalid fields' }; // 401: Unauthorized
       }
     const { id } = user;
-    const token = tokenGenerator(id);
+    const token = tokenGenerator({ id });
 
     return { type: 200, token }; // 200: OK
 };
