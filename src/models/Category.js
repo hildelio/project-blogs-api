@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  const userTable = sequelize.define('Category', {
+  const categoryTable = sequelize.define('Category', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true
@@ -12,5 +12,5 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
   });
-  return userTable;
+  return categoryTable;
 };
