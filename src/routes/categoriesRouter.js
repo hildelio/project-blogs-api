@@ -12,4 +12,6 @@ tokenValidation,
 categoriesController.createCategory,
 );
 
+categoriesRouter.get('/', tokenValidation, categoriesController.getAllCategories);
+
 module.exports = categoriesRouter;
