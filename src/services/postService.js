@@ -33,7 +33,24 @@ const getAllPosts = async () => {
   return { type: 200, message: combinedData };
 };
 
+const getById = async (id) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  console.log(post);
+  const users = await User.findAll({ attributes: { exclude: 'password' } });
+  const categories = await Category.findAll();
+  if (post === null) {
+    return { type: 404, message: 'Post does not exist' };
+  }
+  const combinedData = {
+    ...post.dataValues,
+    user: users.find((user) => user.id === post.userId),
+    categories: categories.filter((category) => category.id === post.id),
+  };
+  return { type: 200, message: combinedData };
+};
+
 module.exports = {
   createPost,
   getAllPosts,
+  getById,
 };
