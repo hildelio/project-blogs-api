@@ -9,6 +9,15 @@ const createPost = async (req, res) => {
   return res.status(type).json(message);
 };
 
+const getAllPosts = async (req, res) => {
+  const { type, message } = await postService.getAllPosts();
+  if (type > 300) {
+    return res.status(type).json({ message });
+  }
+  return res.status(type).json(message);
+};
+
 module.exports = {
   createPost,
+  getAllPosts,
 };

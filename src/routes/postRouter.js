@@ -7,4 +7,6 @@ const postRouter = Router();
 
 postRouter.post('/', postValidation, tokenValidation, postController.createPost);
 
+postRouter.get('/', tokenValidation, postController.getAllPosts);
+
 module.exports = postRouter;
