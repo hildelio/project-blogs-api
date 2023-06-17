@@ -35,7 +35,6 @@ const getAllPosts = async () => {
 
 const getById = async (id) => {
   const post = await BlogPost.findOne({ where: { id } });
-  console.log(post);
   const users = await User.findAll({ attributes: { exclude: 'password' } });
   const categories = await Category.findAll();
   if (post === null) {
@@ -68,9 +67,27 @@ const updatePost = async (id, { title, content }, userId) => {
   return { type: 200, message: combinedData };
 };
 
+const deletePost = async (id, userId) => {
+  try {
+    const post = await BlogPost.findOne({ where: { id } });
+    if (post === null) {
+      return { type: 404, message: 'Post does not exist' };
+    }
+    if (post.userId !== userId) {
+      return { type: 401, message: 'Unauthorized user' };
+    }
+    await PostCategory.destroy({ where: { postId: id } });
+    await post.destroy();
+    return { type: 204 };
+  } catch (error) {
+    return { type: 500, message: error.message };
+  }
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getById,
   updatePost,
+  deletePost,
 };
