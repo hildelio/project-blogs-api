@@ -49,8 +49,28 @@ const getById = async (id) => {
   return { type: 200, message: combinedData };
 };
 
+const updatePost = async (id, { title, content }, userId) => {
+  const post = await BlogPost.findOne({ where: { id } });
+  if (post === null) {
+    return { type: 404, message: 'Post does not exist' };
+  }
+  if (post.userId !== userId) {
+    return { type: 401, message: 'Unauthorized user' };
+  }
+  await post.update({ title, content });
+  const users = await User.findAll({ attributes: { exclude: 'password' } });
+  const categories = await Category.findAll();
+  const combinedData = {
+    ...post.dataValues,
+    user: users.find((user) => user.id === post.userId),
+    categories: categories.filter((category) => category.id === post.id),
+  };
+  return { type: 200, message: combinedData };
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getById,
+  updatePost,
 };
