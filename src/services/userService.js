@@ -25,7 +25,6 @@ const getAllUsers = async () => {
 
 const getById = async (id) => {
   const user = await User.findOne({ where: { id }, attributes: { exclude: 'password' } });
-  console.log(user);
   if (!user) {
     return { type: 404, message: 'User does not exist' };
   }
