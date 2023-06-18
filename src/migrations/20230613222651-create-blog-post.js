@@ -21,7 +21,9 @@ module.exports = {
         references: {
           model: 'users',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'      
       },
       published: {
         allowNull: false,
@@ -30,7 +32,7 @@ module.exports = {
       updated: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

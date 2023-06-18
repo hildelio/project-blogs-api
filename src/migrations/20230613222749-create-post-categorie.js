@@ -8,7 +8,9 @@ module.exports = {
         references: {
           model: 'blog_posts',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       category_id: {
         primaryKey: true,
@@ -16,8 +18,10 @@ module.exports = {
         references: {
           model: 'categories',
           key: 'id'
-        }
-      }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
