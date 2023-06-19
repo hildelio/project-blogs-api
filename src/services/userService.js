@@ -1,11 +1,12 @@
 const { User } = require('../models');
+const { HTTP_STATUS } = require('../utils/httpStatus');
 
 const { tokenGenerator } = require('../utils/tokenJWT');
 
 const registerUser = async ({ displayName, email, password, image }) => {
     const user = await User.findOne({ where: { email } });
     if (user !== null) {
-      return { type: 409, message: 'User already registered' }; // 409: Conflict
+      return { type: HTTP_STATUS.CONFLICT, message: 'User already registered' };
     }
     const { id } = await User.create({
       displayName,
@@ -16,7 +17,7 @@ const registerUser = async ({ displayName, email, password, image }) => {
     
     const token = tokenGenerator({ id });
 
-    return { type: 201, token }; // 201: Created
+    return { type: HTTP_STATUS.CREATED, token };
 };
 
 const getAllUsers = async () => {
@@ -27,14 +28,14 @@ const getAllUsers = async () => {
 const getById = async (id) => {
   const user = await User.findOne({ where: { id }, attributes: { exclude: 'password' } });
   if (!user) {
-    return { type: 404, message: 'User does not exist' };
+    return { type: HTTP_STATUS.NOT_FOUND, message: 'User does not exist' };
   }
-  return { type: 200, message: user };
+  return { type: HTTP_STATUS.OK, message: user };
 };
 
 const deleteUser = async (id) => {
   await User.destroy({ where: { id } });
-  return { type: 204 };
+  return { type: HTTP_STATUS.NO_CONTENT };
 };
 
 module.exports = {

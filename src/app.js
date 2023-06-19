@@ -1,10 +1,5 @@
 const express = require('express');
-const loginRouter = require('./routes/loginRouter');
-const userRouter = require('./routes/userRouter');
-const categoriesRouter = require('./routes/categoriesRouter');
-const postRouter = require('./routes/postRouter');
-
-// ...
+const { loginRouter, userRouter, categoriesRouter, postRouter } = require('./routes');
 
 const app = express();
 

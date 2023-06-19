@@ -1,22 +1,14 @@
 const { Category } = require('../models');
-// const { tokenGenerator } = require('../utils/tokenJWT');
+const { HTTP_STATUS } = require('../utils/httpStatus');
 
 const createCategory = async (newCategory) => {
   const result = await Category.create(newCategory);
-  // if (isNewRecord) {
-  //   return { type: 409, message: 'Category already exists' };
-  // }
-  // const { name } = newCategory;
-  // const { id, dataValues } = await Category.findOne({ where: { name } });
-
-    // tokenGenerator({ id });
-
-  return { type: 201, message: result };
+  return { type: HTTP_STATUS.CREATED, message: result };
 };
 
 const getAllCategories = async () => {
   const categories = await Category.findAll();
-  return { type: 200, message: categories };
+  return { type: HTTP_STATUS.OK, message: categories };
 };
 
 module.exports = {
