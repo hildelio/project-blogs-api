@@ -1,11 +1,9 @@
 const userService = require('../services/userService');
+const { handleResponseWithToken, handleResponse } = require('../utils/handleResponse');
 
 const registerUser = async (req, res) => {
-  const { type, message, token } = await userService.registerUser(req.body);
-  if (type > 300) {
-    return res.status(type).json({ message }); 
-  }
-  return res.status(type).json({ token });  
+  const response = await userService.registerUser(req.body);
+  return handleResponseWithToken(res, response);
 };
 
 const getAllUsers = async (__req, res) => {
@@ -15,12 +13,8 @@ const getAllUsers = async (__req, res) => {
 
 const getById = async (req, res) => {
   const { id } = req.params;
-  const user = await userService.getById(id);
-  const { type, message } = user;
-  if (type > 300) {
-    return res.status(type).json({ message });
-  }
-  return res.status(type).json(message);
+  const response = await userService.getById(id);
+  return handleResponse(res, response);
 };
 
 const deleteUser = async (req, res) => {
