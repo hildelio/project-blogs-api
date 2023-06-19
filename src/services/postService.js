@@ -1,8 +1,5 @@
 const { Op } = require('sequelize');
-const { Category } = require('../models');
-const { BlogPost } = require('../models');
-const { PostCategory } = require('../models');
-const { User } = require('../models');
+const { Category, BlogPost, PostCategory, User } = require('../models');
 const { HTTP_STATUS } = require('../utils/httpStatus');
 
 const validateCategoryIds = async (categoryIds) => {
