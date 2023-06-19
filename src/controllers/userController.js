@@ -1,5 +1,9 @@
 const userService = require('../services/userService');
-const { handleResponseWithToken, handleResponse } = require('../utils/handleResponse');
+const {
+  handleResponseWithToken,
+  handleResponse,
+  handleResponseWithoutMessage,
+} = require('../utils/handleResponse');
 
 const registerUser = async (req, res) => {
   const response = await userService.registerUser(req.body);
@@ -7,8 +11,8 @@ const registerUser = async (req, res) => {
 };
 
 const getAllUsers = async (__req, res) => {
-  const users = await userService.getAllUsers();
-  return res.status(200).json(users);
+  const response = await userService.getAllUsers();
+  return handleResponse(res, response);
 };
 
 const getById = async (req, res) => {
@@ -19,11 +23,8 @@ const getById = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { id } = req.user;
-  const { type, message } = await userService.deleteUser(id);
-  if (type > 300) {
-    return res.status(type).json({ message });
-  }
-  return res.status(type).end();
+  const response = await userService.deleteUser(id);
+  return handleResponseWithoutMessage(res, response);
 };
 
 module.exports = {

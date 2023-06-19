@@ -22,7 +22,7 @@ const registerUser = async ({ displayName, email, password, image }) => {
 
 const getAllUsers = async () => {
   const users = await User.findAll({ attributes: { exclude: 'password' } });
-  return users;
+  return { type: HTTP_STATUS.OK, message: users };
 };
 
 const getById = async (id) => {
